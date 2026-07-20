@@ -4,7 +4,6 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { supabasePublic, supabaseAdmin } from "@/lib/supabase";
 import { Story, Comment } from "@/lib/types";
-import StempelBadge from "@/components/StempelBadge";
 import RatingWidget from "@/components/RatingWidget";
 import CommentSection from "@/components/CommentSection";
 import { SITE } from "@/lib/site";
@@ -33,8 +32,13 @@ async function getApprovedComments(storyId: string): Promise<Comment[]> {
   return (data as Comment[]) || [];
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
-  const story = await getStory(params.slug);
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const story = await getStory(slug);
   if (!story) return {};
 
   const url = `${SITE.url}/cerita/${story.slug}`;
@@ -57,8 +61,13 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   };
 }
 
-export default async function StoryPage({ params }: { params: { slug: string } }) {
-  const story = await getStory(params.slug);
+export default async function StoryPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
+  const { slug } = await params;
+  const story = await getStory(slug);
   if (!story) notFound();
 
   const comments = await getApprovedComments(story.id);
@@ -100,9 +109,8 @@ export default async function StoryPage({ params }: { params: { slug: string } }
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="flex items-center justify-between mb-4 font-mono text-xs text-arsip-soft">
+      <div className="mb-4 font-mono text-xs text-arsip-soft">
         <span>{date} &middot; {story.views + 1}x dibuka</span>
-        <StempelBadge status={story.status_berkas} size="lg" />
       </div>
 
       <h1 className="font-display text-3xl sm:text-4xl font-bold text-arsip-ink leading-tight">
