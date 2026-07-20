@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Zilla Slab", serif;
+  --font-body: "PT Serif", serif;
+  --font-mono: "Courier Prime", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F1E7CE;
+  color: #20201C;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(168, 34, 28, 0.03) 0, transparent 45%),
+    radial-gradient(circle at 85% 30%, rgba(32, 32, 28, 0.035) 0, transparent 40%),
+    repeating-linear-gradient(0deg, rgba(32,32,28,0.015) 0px, rgba(32,32,28,0.015) 1px, transparent 1px, transparent 3px);
+}
+
+::selection {
+  background-color: #A8221C;
+  color: #F6F1E4;
+}
+
+/* Stempel: stempel tinta merah yang dirotasi, dipakai untuk status berkas */
+.stempel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  border: 3px solid currentColor;
+  border-radius: 4px;
+  padding: 0.15em 0.6em;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+  mix-blend-mode: multiply;
+  opacity: 0.92;
+}
+
+/* Sudut terpotong ala map/folder arsip */
+.folder-clip {
+  clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%);
+}
+
+.redact {
+  background-color: #20201C;
+  color: transparent;
+  border-radius: 2px;
+  user-select: none;
+}
+
+.hairline {
+  border-color: #B8AC8E;
+}
+
+@keyframes stamp-in {
+  0% { opacity: 0; transform: rotate(-4deg) scale(2.2); }
+  60% { opacity: 1; }
+  100% { opacity: 1; transform: rotate(-4deg) scale(1); }
+}
+.stamp-animate {
+  animation: stamp-in 0.4s cubic-bezier(0.2, 0.8, 0.3, 1.1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp-animate { animation: none; }
+  html { scroll-behavior: auto; }
+}
