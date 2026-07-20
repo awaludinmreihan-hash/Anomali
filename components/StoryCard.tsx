@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Story } from "@/lib/types";
-import StempelBadge from "./StempelBadge";
 
 function caseNumber(index: number) {
   return `BERKAS NO. ${String(index).padStart(4, "0")}`;
@@ -18,11 +17,10 @@ export default function StoryCard({ story, index }: { story: Story; index: numbe
       href={`/cerita/${story.slug}`}
       className="folder-clip group block bg-kraft-100 border border-arsip-line hover:border-arsip-ink transition-colors p-5 sm:p-6"
     >
-      <div className="flex items-center justify-between mb-3">
+      <div className="mb-3">
         <span className="font-mono text-[11px] tracking-widest text-arsip-soft">
           {caseNumber(index)} &middot; {date}
         </span>
-        <StempelBadge status={story.status_berkas} />
       </div>
 
       <h2 className="font-display text-2xl font-semibold text-arsip-ink leading-snug group-hover:text-stempel transition-colors">
